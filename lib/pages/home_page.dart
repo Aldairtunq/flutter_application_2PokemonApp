@@ -1,22 +1,30 @@
+import 'dart:convert';
 import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
 //uri permite identificar y localizar
 //url localizador de reurso del servidor
+
+  List pokemons = [];
+
   getDataPokemon() async {
     Uri _uri = Uri.parse(
         "https://raw.githubusercontent.com/Biuni/PokemonGO-pokedex/master/pokedex.json");
     http.Response response = await http.get(_uri);
-    print(response.statusCode);
-    print(response.body);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> myMap = json.decode(response.body);
+      pokemons = myMap["pokemon"];
+      print(pokemons);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    getDataPokemon();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -99,8 +107,8 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            bottom: 0,
-                            right: 0,
+                            bottom: -10,
+                            right: -10,
                             child: Image.network(
                               "https://www.serebii.net/pokemongo/pokemon/001.png",
                             ),

@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/models/pokemon_model.dart';
+import 'package:flutter_application_2/ui/general/colors.dart';
 import 'package:flutter_application_2/ui/widgets/item_data_widget.dart';
 import 'package:flutter_application_2/ui/widgets/item_pokemon.dart';
 import 'package:flutter_application_2/ui/widgets/item_type_widget.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  pokemonModel pokemon;
+
+  DetailPage({
+    required this.pokemon,
+  });
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Color(0xff49D0B0),
+      backgroundColor: colorsPokemon[pokemon.type.first],
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xff49D0B0),
+        backgroundColor: Colors.transparent,
         actions: [
           IconButton(onPressed: () {}, icon: Icon(Icons.favorite)),
         ],
@@ -39,7 +45,7 @@ class DetailPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Bulbasaur",
+                      pokemon.name,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 36.0,
@@ -50,19 +56,14 @@ class DetailPage extends StatelessWidget {
                       height: 6.0,
                     ),
                     Row(
-                      children: [
-                        ItemTypeWidget(
-                          text: "Brass",
-                        ),
-                        ItemTypeWidget(
-                          text: "Brass",
-                        ),
-                      ],
-                    )
+                      children: pokemon.type
+                          .map((e) => ItemTypeWidget(text: e))
+                          .toList(),
+                    ),
                   ],
                 ),
                 Text(
-                  "#0001",
+                  "#${pokemon.numPokemon}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20.0,
@@ -106,7 +107,7 @@ class DetailPage extends StatelessWidget {
                             ),
                             ItemDataWidget(
                               title: "height",
-                              data: "1.5 m",
+                              data: pokemon.height,
                             ),
                             ItemDataWidget(
                               title: "weight",
@@ -133,8 +134,7 @@ class DetailPage extends StatelessWidget {
                         top: 90,
                         child: Align(
                           alignment: Alignment.topCenter,
-                          child: Image.network(
-                              "http://www.serebii.net/pokemongo/pokemon/001.png"),
+                          child: Image.network(pokemon.img),
                         ),
                       )
                     ],

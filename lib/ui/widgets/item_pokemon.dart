@@ -26,7 +26,7 @@ class ItemPokemonWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            color: Color.fromARGB(217, 114, 186, 162),
+            color: colorspokemon[pokemon.type.first],
             borderRadius: BorderRadius.circular(18.0)),
         child: Stack(
           children: [
